@@ -26,8 +26,7 @@ const codeActionButtons = [
 ];
 
 const body = elem('body');
-const maxLines = codeBlockConfig.maximum;
-const showLines = codeBlockConfig.show;
+const maxLines = parseInt(body.dataset.code);
 const copyId = 'panel_copy';
 const wrapId = 'panel_wrap';
 const linesId = 'panel_lines';
@@ -38,16 +37,15 @@ const panelFrom = 'panel_from';
 const panelBox = 'panel_box';
 const fullHeight = 'initial';
 const highlightWrap = 'highlight_wrap'
-const highlight = 'highlight';
 
 function wrapOrphanedPreElements() {
   const pres = elems('pre');
   Array.from(pres).forEach(function(pre){
     const parent = pre.parentNode;
-    const isOrpaned = !containsClass(parent, highlight) ;
+    const isOrpaned = !containsClass(parent, 'highlight');
     if(isOrpaned) {
       const preWrapper = createEl();
-      preWrapper.className = highlight;
+      preWrapper.className = 'highlight';
       const outerWrapper = createEl();
       outerWrapper.className = highlightWrap;
       wrapEl(pre, preWrapper);
@@ -65,7 +63,7 @@ wrapOrphanedPreElements();
 function codeBlocks() {
   const markedCodeBlocks = elems('code');
   const blocks = Array.from(markedCodeBlocks).filter(function(block){
-    return block.closest("pre") && !Array.from(block.classList).includes('noClass');
+    return hasClasses(block) && !Array.from(block.classList).includes('noClass');
   }).map(function(block){
     return block
   });
@@ -75,7 +73,7 @@ function codeBlocks() {
 function codeBlockFits(block) {
   // return false if codeblock overflows
   const blockWidth = block.offsetWidth;
-  const highlightBlockWidth = block.closest(`.${highlight}`).offsetWidth;
+  const highlightBlockWidth = block.parentNode.parentNode.offsetWidth;
   return blockWidth <= highlightBlockWidth ? true : false;
 }
 
@@ -92,7 +90,7 @@ function restrainCodeBlockHeight(lines) {
     if(lastLinePos !== 0) {
       maxCodeBlockHeight = `${lastLinePos}px`;
       const codeBlock = lines[0].parentNode;
-      const outerBlock = codeBlock.closest(`.${highlight}`);
+      const outerBlock = codeBlock.closest('.highlight');
       const isExpanded = containsClass(outerBlock, panelExpanded);
       if(!isExpanded) {
         codeBlock.dataset.height = maxCodeBlockHeight;
@@ -107,21 +105,13 @@ const blocks = codeBlocks();
 function collapseCodeBlock(block) {
   const lines = elems('.ln', block);
   const codeLines = lines.length;
-  if(!lines) {
-    // hide lines toggle button for blocks that have no lines.
-    setTimeout(() => {
-      let panelLinesParentEl = block.closest(`.${highlightWrap}`);
-      let panelLinesEl = elem(`.${linesId}`, panelLinesParentEl);
-      pushClass(panelLinesEl, panelHide);
-    }, 2000)
-  }
   if (codeLines > maxLines) {
     const expandDot = createEl()
     pushClass(expandDot, panelExpand);
     pushClass(expandDot, panelFrom);
     expandDot.title = "Toggle code block expand";
     expandDot.textContent = "...";
-    const outerBlock = block.closest(`.${highlight}`);
+    const outerBlock = block.closest('.highlight');
     window.setTimeout(function(){
       const expandIcon = outerBlock.nextElementSibling.lastElementChild;
       deleteClass(expandIcon, panelHide);
@@ -158,13 +148,11 @@ function actionPanel() {
 }
 
 function toggleLineNumbers(elems) {
-  if(elems) {
-    elems.forEach(function (elem, index) {
-      // mark the code element when there are no lines
-      modifyClass(elem, 'pre_nolines')
-    });
-    restrainCodeBlockHeight(elems);
-  }
+  elems.forEach(function (elem, index) {
+    // mark the code element when there are no lines
+    modifyClass(elem, 'pre_nolines')
+  });
+  restrainCodeBlockHeight(elems);
 }
 
 function toggleLineWrap(elem) {
@@ -199,13 +187,13 @@ function disableCodeLineNumbers(block){
   const highlightWrapId = highlightWrap;
   blocks.forEach(function(block){
     // disable line numbers if disabled globally
-    showLines === false ? disableCodeLineNumbers(block) : false;
+    const showLines = elem('body').dataset.lines;
+    parseBoolean(showLines) === false ? disableCodeLineNumbers(block) : false;
 
     const highlightElement = block.parentNode.parentNode;
     // wrap code block in a div
     const highlightWrapper = createEl();
     highlightWrapper.className = highlightWrapId;
-
     wrapEl(highlightElement, highlightWrapper);
 
     const panel = actionPanel();
@@ -222,7 +210,8 @@ function disableCodeLineNumbers(block){
     return target.matches(`.${id}`) || target.closest(`.${id}`);
   }
 
-  function showActive(target, targetClass) {
+  function showActive(target, targetClass,activeClass = 'active') {
+    const active = activeClass;
     const targetElement = target.matches(`.${targetClass}`) ? target : target.closest(`.${targetClass}`);
 
     deleteClass(targetElement, active);

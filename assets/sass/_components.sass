@@ -16,8 +16,6 @@
   height: 0
   overflow: hidden
   filter: opacity(0.87)
-  &_item
-    font-size: 0.9rem
   &_active
     height: initial
 .search
@@ -237,8 +235,11 @@
 
 .color
   &_mode
-    height: 1rem
-    margin-left: 1.5rem
+    height: 1.5rem
+    display: grid
+    grid-template-columns: 1fr 3rem
+    align-items: center
+    margin: 0 1.5rem
 
   &_choice
     outline: none
@@ -246,32 +247,36 @@
     -webkit-appearance: none
     height: 1rem
     position: relative
-    width: 1rem
-    border-radius: 1rem
-    cursor: pointer
-    z-index: 2
-    right: 0
-    filter: contrast(0.8)
-
-    &::after
+    &::before, &::after
       content: ""
-      top: 0.1rem
+      top: 0
       bottom: 0
       left: 0
       position: absolute
-      height: 0.8rem
-      background: var(--accent)
-      width: 0.8rem
-      border-radius: 0.25rem
+      height: 1rem
+      background: var(--theme)
+
+    &, &::before
+      width: 2.75rem
+      border-radius: 1rem
+      cursor: pointer
+      transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)
+      box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.15)
+
+    &::before
+      box-shadow: 0 1rem 2rem rgba(0,0,0,0.17)
+      z-index: 2
+      right: 0
+      filter: brightness(0.75)
+
+    &::after
+      width: 1rem
+      border-radius: 50%
       z-index: 3
       transform: scale(1.67)
       transform-origin: 50% 50%
       transition: transform 0.5s cubic-bezier(.19,1,.22,1)
       will-change: transform
-      background-image: url(../icons/sun.svg)
-      background-size: 60%
-      background-repeat: no-repeat
-      background-position: center 
 
   &_icon
     height: 1rem
@@ -307,7 +312,7 @@
   &::before
     content: ""
     position: absolute
-    left: -0.85rem
+    left: -0.875rem
     top: 1.5rem
     z-index: 3
     padding: 0.75rem
@@ -315,23 +320,7 @@
     border-radius: 50%
     background-color: var(--theme)
     background-image: url(../icons/info.svg)
-    background-size: 12%
+    background-size: 25%
     background-position: 50% 50%
     background-repeat: no-repeat
 
-.mermaid
-  --theme: darkgoldenrod
-  background-color: transparent !important
-  margin-bottom: 2.5rem
-  svg
-    margin: 0 auto
-    display: block
-  .actor, .labelBox, .classGroup rect
-    fill: var(--theme) !important
-    stroke: var(--theme) !important
-  .messageText, tspan, text
-    fill: var(--text) !important
-    stroke: var(--text) !important
-  .messageLine0, .loopLine
-    stroke: var(--theme) !important
-    fill: var(--theme) !important

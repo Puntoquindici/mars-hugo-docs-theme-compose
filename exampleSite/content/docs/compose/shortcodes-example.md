@@ -1,12 +1,10 @@
 ---
-title: Shortcodes Applied
+title: "Shortcodes Applied"
 weight: 7
-description: 'This is how the shortcodes would look like in action
-
-'
-draft: true
-
+description: >
+  This is how the shortcodes would look like in action
 ---
+
 ### Blocks, columns & buttons
 
 ```sh

@@ -101,7 +101,7 @@ function initializeSearch(index) {
   }
   
   function liveSearch() {
-    const searchField = elem(searchFieldClass);
+    const searchField = elem('.search_field');
   
     if (searchField) {
       searchField.addEventListener('input', function() {
@@ -135,7 +135,7 @@ function initializeSearch(index) {
       search(searchTerm, true);
   
       // search actively after search page has loaded
-      const searchField = elem(searchFieldClass);
+      const searchField = elem('.search_field');
   
       if(searchField) {
         searchField.addEventListener('input', function() {
@@ -149,20 +149,18 @@ function initializeSearch(index) {
   
   function hasSearchResults() {
     const searchResults = elem('.results');
-    if(searchResults) {
-        const body = searchResults.innerHTML.length;
-        return [searchResults, body];
-    }
-    return false
+    const body = searchResults.innerHTML.length;
+    return [searchResults, body]
   }
   
   function clearSearchResults() {
     let searchResults = hasSearchResults();
-    if(searchResults) {
+    let actionable = searchResults[1];
+    if(actionable) {
       searchResults = searchResults[0];
       searchResults.innerHTML = "";
       // clear search field
-      const searchField = elem(searchFieldClass);
+      const searchField = elem('.search_field');
       searchField.value = "";
     }
   }
@@ -189,7 +187,7 @@ function initializeSearch(index) {
   
   window.addEventListener('click', function(event){
     const target = event.target;
-    const isSearch = target.closest(searchClass) || target.matches(searchClass);
+    const isSearch = target.closest('.search') || target.matches('.search');
     if(!isSearch && !searchPageElement) {
       clearSearchResults();
     }
@@ -197,7 +195,7 @@ function initializeSearch(index) {
 }
 
 window.addEventListener('load', function() { 
-  fetch(new URL("index.json", rootURL).href)
+  fetch(`${rootURL}index.json`)
   .then(response => response.json())
   .then(function(data) {
     data = data.length ? data : [];

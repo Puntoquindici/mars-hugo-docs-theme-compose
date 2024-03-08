@@ -46,23 +46,9 @@ function toggleMenu(event) {
   }
 })();
 
-function featureHeading(){
-  // show active heading at top.
-  const linkClass = "section_link";
-  const titleClass = "section_title";
-  const parent = elem(".aside");
-  if(parent) {
-    let activeHeading = elem(`.${linkClass}.${active}`);
-    activeHeading = activeHeading ? activeHeading : elem(`.${titleClass}.${active}`);
-    parent.scroll({
-      top: activeHeading.offsetTop,
-      left: 0,
-      // behavior: 'smooth'
-    });
-  }
-}
-
 function activeHeading(position, listLinks) {
+  let active = 'active';
+
   let linksToModify = Object.create(null);
   linksToModify.active = listLinks.filter(function(link) {
     return containsClass(link, active);
@@ -79,10 +65,6 @@ function activeHeading(position, listLinks) {
     pushClass(linksToModify.new, active);
   }
 };
-
-setTimeout(() => {
-  featureHeading();
-}, 50);
 
 function loadActions() {
   (function updateDate() {
@@ -104,7 +86,7 @@ function loadActions() {
           const tocItems = Array.from(toc.children[0].children);
 
           const previousHeading = toc.previousElementSibling;
-          previousHeading.matches(`.${active}`) ? pushClass(toc, tocActive) : false;
+          previousHeading.matches('.active') ? pushClass(toc, tocActive) : false;
 
           tocItems.forEach(function(item){
             pushClass(item, 'toc_item');
@@ -153,8 +135,9 @@ function loadActions() {
 
   (function markExternalLinks(){
     let links = elems('a');
+    const contentWrapperClass = '.content';
     if(links) {
-      Array.from(links).forEach(function(link){
+      Array.from(links).forEach(function(link, index){
         let target, rel, blank, noopener, attr1, attr2, url, isExternal;
         url = new URL(link.href);
         // definition of same origin: RFC 6454, section 4 (https://tools.ietf.org/html/rfc6454#section-4)
@@ -362,24 +345,6 @@ function loadActions() {
     }
     toggleMenu(event);
   });
-
-  (function backToTop(){
-    const toTop = elem("#toTop");
-    window.addEventListener("scroll", function(e) {
-      const lastKnownScrollPosition = window.scrollY;
-      if(lastKnownScrollPosition >= 200) {
-        toTop.style.display = "flex";
-        const viewPort = window.innerWidth;
-        const maxBodyWidth = 1240;
-        // if(viewPort > maxBodyWidth) {
-        //   toTop.style.right = `${((viewPort - maxBodyWidth) / 2)}px`;
-        // }
-        pushClass(toTop, active);
-      } else {
-        deleteClass(toTop, active);
-      }
-    })
-  })();
 
 }
 
