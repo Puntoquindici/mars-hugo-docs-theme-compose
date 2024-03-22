@@ -22,7 +22,7 @@
     {{- partial "nav" . }}
   </header>
   <div class="main wrap pt-4">
-    {{- if eq .Section "docs" }}
+    {{if in site.Params.sectionsWithMenu .Section }}
     {{- partial "document" . }}
     {{- else }}
     {{- block "main" . }}{{ end }}

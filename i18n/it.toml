@@ -1,0 +1,16 @@
+[docs_menu]
+  other = "Menu"
+[no_matches]
+  other = "Nessun risultato"
+[quick_links]
+  other = "Link rapidi"
+[search_field_placeholder]
+  other = "Cerca..."
+[search_results_label]
+  other = "Risultati della ricerca"
+[short_search_query]
+  other = "La chiave di ricerca è troppo corta"
+[site_menu]
+  other = "Menu del sito"
+[type_to_search]
+  other = "Scrivi qui per cercare"
