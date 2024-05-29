@@ -1,3 +1,5 @@
+# WARNING: this files seems useless see assets/variables.js
+
 [docs_menu]
   other = "Docs Menu"
 [no_matches]
@@ -13,4 +15,4 @@
 [site_menu]
   other = "Site Menu"
 [type_to_search]
-  other = "Type to search"
+  other = "Type in the text field above to search ⬆️"

@@ -1,4 +1,6 @@
 function initializeSearch(index) {
+  const lang = document.location.pathname.indexOf('/it/') != -1 ? 'it' : 'en';
+
   const searchKeys = ['title', 'link', 'body', 'id'];
   
   const searchPageElement = elem('#searchpage');
@@ -35,9 +37,9 @@ function initializeSearch(index) {
     if(results.length && queryLen >= requiredQueryLen) {
       let resultsTitle = createEl('h3');
       resultsTitle.className = 'search_title';
-      resultsTitle.innerText = quickLinks;
+      resultsTitle.innerText = marsI18n[lang].quickLinks;
       if(passive) {
-        resultsTitle.innerText = searchResultsLabel;
+        resultsTitle.innerText = marsI18n[lang].searchResultsLabel;
       }
       resultsFragment.appendChild(resultsTitle);
       if(!searchPageElement) {
@@ -70,13 +72,13 @@ function initializeSearch(index) {
   
     if(queryLen >= requiredQueryLen) {
       if (!results.length) {
-        showResults.innerHTML = `<span class="search_result">${noMatchesFound}</span>`;
+        showResults.innerHTML = `<span class="search_result">${marsI18n[lang].noMatchesFound}</span>`;
       }
     } else {
       if (queryLen > 1) {
-        showResults.innerHTML = `<label for="find" class="search_result">${shortSearchQuery}</label>`;
+        showResults.innerHTML = `<label for="find" class="search_result">${marsI18n[lang].shortSearchQuery}</label>`;
       } else {
-        showResults.innerHTML = `<label for="find" class="search_result">${typeToSearch}</label>`;
+        showResults.innerHTML = `<label for="find" class="search_result">${marsI18n[lang].typeToSearch}</label>`;
       }
     }
   
@@ -110,7 +112,7 @@ function initializeSearch(index) {
       });
   
       if(!searchPageElement) {
-        searchField.addEventListener('search', function(){
+        searchField.addEventListener('change', function(){
           const searchTerm = searchField.value.trim().toLowerCase();
           if(searchTerm.length)  {
             window.location.href = new URL(`search/?query=${searchTerm}`, rootURL).href;
@@ -195,7 +197,14 @@ function initializeSearch(index) {
 }
 
 window.addEventListener('load', function() { 
-  fetch(`${rootURL}index.json`)
+  // TODO: fix i18n search. Hacked solution.
+  // Hugo seems to hardcode this info at build time and does not detect the correct locale
+  // Hack: use the document.path to see if it's italian otherwise fallback to english
+  langPrefix = ''
+  if( document.location.pathname.indexOf('/it/') != -1 ) {
+    langPrefix = 'it/'
+  }
+  fetch(`${rootURL}${langPrefix}index.json`)
   .then(response => response.json())
   .then(function(data) {
     data = data.length ? data : [];

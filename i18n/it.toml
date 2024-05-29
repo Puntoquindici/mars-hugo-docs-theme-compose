@@ -1,3 +1,5 @@
+# WARNING: this files seems useless see assets/variables.js
+
 [docs_menu]
   other = "Menu"
 [no_matches]
@@ -13,4 +15,4 @@
 [site_menu]
   other = "Menu del sito"
 [type_to_search]
-  other = "Scrivi qui per cercare"
+  other = "Scrivi nel campo di testo qui sopra per cercare ⬆️"
