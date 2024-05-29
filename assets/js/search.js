@@ -115,7 +115,9 @@ function initializeSearch(index) {
         searchField.addEventListener('change', function(){
           const searchTerm = searchField.value.trim().toLowerCase();
           if(searchTerm.length)  {
-            window.location.href = new URL(`search/?query=${searchTerm}`, rootURL).href;
+            // TODO: fixme hardcoded url
+            const searchUrl = lang === 'it' ? 'it/cerca' : 'search'
+            window.location.href = new URL(`${searchUrl}/?query=${searchTerm}`, rootURL).href;
           }
         });
       }
