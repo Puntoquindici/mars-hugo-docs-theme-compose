@@ -1,4 +1,5 @@
 {{- $src := .Get 0 }}
 {{- $alt := .Get 1 }}
-{{- $modifier := .Get 2 -}}
-<img src="{{ printf "%s%s" .Site.BaseURL $src }}"{{ with $alt }} alt="{{ . }}" title="{{ . }}"{{ end }}{{ with $modifier }} class="{{ . }}"{{ end }}>
+{{- $class := .Get 2 }}
+{{- $style := .Get 3 -}}
+<img src="{{ printf "%s%s" .Site.BaseURL $src }}" {{ with $alt }} alt="{{ . }}" title="{{ . }}"{{ end }} {{ with $class }} class="{{ . }}"{{ end }} {{ with $style }} style="{{ . }}"{{ end }}>
