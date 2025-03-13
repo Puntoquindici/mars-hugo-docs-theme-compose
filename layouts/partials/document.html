@@ -6,3 +6,11 @@
     {{ partial "pager" . }}
   </main>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var activeTocLink = document.querySelector('.section_link.active');
+    if (activeTocLink) {
+      activeTocLink.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+</script>
