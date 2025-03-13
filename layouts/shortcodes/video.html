@@ -1,0 +1,8 @@
+{{- $src := .Get 0 }}
+{{- $loop := .Get 1 }}
+{{- $mute := .Get 2 }}
+{{- $autoplay := .Get 3 }}
+{{- $alt := .Get 4 }}
+{{- $class := .Get 5 }}
+{{- $style := .Get 6 -}}
+<video src="{{ printf "%s%s" .Site.BaseURL $src }}" {{ with $alt }} alt="{{ . }}" title="{{ . }}"{{ end }} {{ with $class }} class="{{ . }}"{{ end }} {{ with $style }} style="{{ . }}"{{ end }} {{ if eq $loop "true" }} loop{{ end }} {{ if eq $mute "true" }} muted{{ end }} {{ if eq $autoplay "true" }} autoplay{{ end }}></video>
