@@ -38,3 +38,7 @@
 
 {{- partial "header-vue" . }}
 {{- partial "header-meta" . }}
+
+{{ if site.BuildDrafts }}
+  {{- partial "hide-iubenda" . }}
+{{ end }}
