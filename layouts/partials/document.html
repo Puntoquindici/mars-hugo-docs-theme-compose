@@ -9,6 +9,9 @@
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     var activeTocLink = document.querySelector('.section_link.active');
+    if(!activeTocLink) {
+      activeTocLink = document.querySelector('.section_title.active');
+    }
     if (activeTocLink) {
       activeTocLink.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
