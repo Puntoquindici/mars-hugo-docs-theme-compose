@@ -8,19 +8,21 @@
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    var activeTocLink = document.querySelector('.section_link.active');
-    if (activeTocLink) {
+      var activeTocLink = document.querySelector('.section_link.active');
+      if (activeTocLink) {
       activeTocLink.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-    }
-
-    if(!activeTocLink) {
-      activeTocLink = document.querySelector('.section_title.active');
-      const toc = document.querySelector('.aside.menu')
-      if (activeTocLink && toc) {
-        const top = activeTocLink.offsetTop - toc.clientHeight / 2 + activeTocLink.offsetHeight / 2;
-        toc.scrollTo({ top, behavior: 'smooth' });
       }
-    }
+
+      if(!activeTocLink) {
+        setTimeout(function() {
+          activeTocLink = document.querySelector('.section_title.active');
+          const toc = document.querySelector('.aside.menu')
+          if (activeTocLink && toc) {
+            const topN = activeTocLink.offsetTop - toc.clientHeight / 2 + activeTocLink.offsetHeight / 2;
+            toc.scrollTo({ top: topN, behavior: 'smooth' });
+          }
+        }, 1000);
+      }
 
   });
 </script>
